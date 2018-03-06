@@ -10,10 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Pavel on 27.06.2017.
- */
-public class ProfessionDao implements AbstractDao<Profession> {
+public class ProfessionDao implements IDao<Profession> {
 
     private final static String PROF_ID = "prof_id";
     private final static String PROFESSION = "profession";
@@ -41,7 +38,7 @@ public class ProfessionDao implements AbstractDao<Profession> {
 
     @Override
     public void add(Profession profession) {
-        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(ADD);){
+        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(ADD)){
             statement.setString(1,profession.getProfession());
             statement.execute();
         }catch (SQLException ex){

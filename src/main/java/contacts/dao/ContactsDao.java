@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Pavel on 27.06.2017.
  */
-public class ContactsDao implements AbstractDao<Contact> {
+public class ContactsDao implements IDao<Contact> {
 
     private final static String NAME = "name";
     private final static String SURNAME = "surname";
@@ -141,7 +141,7 @@ public class ContactsDao implements AbstractDao<Contact> {
         PreparedStatement statement = null;
         ResultSet rs = null;
         List<Contact> contacts = null;
-        Contact contact = null;
+        Contact contact;
         try{
             contacts = new ArrayList<>();
             statement = connection.prepareStatement(sql);

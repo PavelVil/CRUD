@@ -1,6 +1,5 @@
 package contacts.controller;
 
-import contacts.dao.AbstractDao;
 import contacts.dao.ContactsDao;
 import contacts.dao.ProfessionDao;
 import contacts.dao.ZipDao;
@@ -14,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Pavel on 27.06.2017.

@@ -4,8 +4,8 @@ CREATE TABLE `contact_interest` (
   `interest_id` int(11) NOT NULL,
   KEY `fk_contc_id_idx` (`contact_id`),
   KEY `fk_inter_id_idx` (`interest_id`),
-  CONSTRAINT `fk_contc_id` FOREIGN KEY (`contact_id`) REFERENCES `my_contacts` (`contact_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_inter_id` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`interest_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_contc_id` FOREIGN KEY (`contact_id`) REFERENCES `my_contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_inter_id` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`interest_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `interests`;
@@ -29,8 +29,8 @@ CREATE TABLE `my_contacts` (
   PRIMARY KEY (`contact_id`),
   KEY `fk_zip_idx` (`zip_code`),
   KEY `fk_profession_idx` (`prof_id`),
-  CONSTRAINT `fk_profession` FOREIGN KEY (`prof_id`) REFERENCES `professions` (`prof_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_zip` FOREIGN KEY (`zip_code`) REFERENCES `zip_code` (`zip_code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_profession` FOREIGN KEY (`prof_id`) REFERENCES `professions` (`prof_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_zip` FOREIGN KEY (`zip_code`) REFERENCES `zip_code` (`zip_code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `professions`;

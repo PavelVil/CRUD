@@ -7,20 +7,11 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Properties;
 
-/**
- * Created by Pavel on 27.06.2017.
- */
 public class DaoUtil {
 
     public static Connection getConnection(){
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/contacts?encoding=UTF-8&useUnicode=true&characterEncoding=UTF-8&user=root&password=root");
             Context context = new InitialContext();
             Context initContext  = (Context )context.lookup("java:/comp/env");
             DataSource ds = (DataSource) initContext.lookup("jdbc/contacts");

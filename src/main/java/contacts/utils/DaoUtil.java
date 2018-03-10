@@ -9,20 +9,20 @@ import java.util.Properties;
 
 public class DaoUtil {
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         Connection connection = null;
         try {
             Context context = new InitialContext();
-            Context initContext  = (Context )context.lookup("java:/comp/env");
+            Context initContext = (Context) context.lookup("java:/comp/env");
             DataSource ds = (DataSource) initContext.lookup("jdbc/contacts");
             connection = ds.getConnection();
-        }catch (SQLException | NamingException ex){
+        } catch (SQLException | NamingException ex) {
             ex.printStackTrace();
         }
         return connection;
     }
 
-    public static void close(Statement statement, ResultSet rs,Connection connection){
+    public static void close(Statement statement, ResultSet rs, Connection connection) {
         try {
 
             if (statement != null) {
@@ -34,9 +34,18 @@ public class DaoUtil {
             if (connection != null) {
                 connection.close();
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
+    public static void close(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

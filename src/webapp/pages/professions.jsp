@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -18,8 +17,8 @@
         <c:forEach items="${professionList}" var="profession">
             <tr>
                 <td>${profession.profession}</td>
-                <td><a href="/professions?action=delete&profId=${profession.id}" class="btn btn-danger">Удалить</a> </td>
-                <td><a href="/professions?action=edit&profId=${profession.id}" class="btn btn-info">Изменить</a> </td>
+                <td><a href="/professions?action=delete&profId=${profession.id}" class="btn btn-danger">Удалить</a></td>
+                <td><a href="/professions?action=edit&profId=${profession.id}" class="btn btn-info">Изменить</a></td>
             </tr>
         </c:forEach>
     </c:if>
@@ -36,14 +35,15 @@
         <input type="hidden" name="profId" value="${profession.id}">
     </c:if>
     <div class="form-group">
-    Название: <input type="text" name="profession" <c:if test="${professionExist}">value="${profession.profession}"</c:if> >
+        Название: <input type="text" name="profession"
+                         <c:if test="${professionExist}">value="${profession.profession}"</c:if> >
     </div>
     <div class="form-group">
-    <input type="submit" class="btn btn-default"
-    <c:choose>
-           <c:when test="${professionExist}">value="Редактировать"</c:when>
-           <c:otherwise>value="Добавить"</c:otherwise>
-    </c:choose>>
+        <input type="submit" class="btn btn-default"
+        <c:choose>
+               <c:when test="${professionExist}">value="Редактировать"</c:when>
+               <c:otherwise>value="Добавить"</c:otherwise>
+        </c:choose>>
     </div>
 </form>
 </body>

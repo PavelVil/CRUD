@@ -1,11 +1,8 @@
 package contacts.model;
 
-/**
- * Created by Pavel on 27.06.2017.
- */
-public class Profession {
 
-    private int id;
+public class Profession extends BaseEntity {
+
     private String profession;
 
     public Profession() {
@@ -18,14 +15,6 @@ public class Profession {
     public Profession(int id, String profession) {
         this.id = id;
         this.profession = profession;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getProfession() {

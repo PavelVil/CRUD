@@ -2,12 +2,9 @@ package contacts.model;
 
 import java.sql.Date;
 
-/**
- * Created by Pavel on 27.06.2017.
- */
-public class Contact {
 
-    private int contactId;
+public class Contact extends BaseEntity {
+
     private String lastName;
     private String firstName;
     private String email;
@@ -17,10 +14,9 @@ public class Contact {
     private Zip zip;
     private Profession profession;
 
-    public Contact(){
+    public Contact() {
 
     }
-
 
     public Contact(String lastName, String firstName, String email, String gender, Date date, String phone, Zip zip, Profession profession) {
         this.lastName = lastName;
@@ -40,14 +36,6 @@ public class Contact {
         this.gender = gender;
         this.date = date;
         this.phone = phone;
-    }
-
-    public int getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
     }
 
     public String getLastName() {
@@ -117,7 +105,7 @@ public class Contact {
     @Override
     public String toString() {
         return "Contact{" +
-                "contactId=" + contactId +
+                "contactId=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", email='" + email + '\'' +

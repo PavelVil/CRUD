@@ -1,6 +1,6 @@
 package contacts.controller;
 
-import contacts.dao.ZipDao;
+import contacts.dao.*;
 import contacts.model.Zip;
 
 import javax.servlet.ServletException;
@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Pavel on 28.06.2017.
  */
 public class ZipController extends HttpServlet {
 
-    private ZipDao zipDao = new ZipDao();
+    private AbstractDao<Zip> zipDao = new ZipDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +23,6 @@ public class ZipController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         String url = "/pages/";
         req.setAttribute("zipList",zipDao.getAll());
@@ -50,7 +48,7 @@ public class ZipController extends HttpServlet {
         String state = req.getParameter("state");
         Zip zip = new Zip(city,state);
         if (zipId==null) {
-            zipDao.add(new Zip(city, state));
+            zipDao.create(new Zip(city, state));
         } else {
             zip.setId(Integer.parseInt(zipId));
             zipDao.edit(zip);

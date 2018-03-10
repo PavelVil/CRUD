@@ -2,14 +2,12 @@ package contacts.dao;
 
 import java.util.List;
 
-/**
- * Created by Pavel on 27.06.2017.
- */
+
 public interface IDao<T> {
 
     List<T> getAll();
 
-    void add(T entity);
+    T create(T entity);
 
     T getById(int id);
 

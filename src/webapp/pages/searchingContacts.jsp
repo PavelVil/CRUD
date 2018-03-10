@@ -30,7 +30,7 @@
     <c:if test="${!empty contactsSearching}">
         <c:forEach items="${contactsSearching}" var="contact">
             <tr>
-                <td><a href="/contacts?action=aboutContact&contactId=${contact.contactId}">${contact.lastName}</a></td>
+                <td><a href="/contacts?action=aboutContact&contactId=${contact.id}">${contact.lastName}</a></td>
                 <td>${contact.firstName}</td>
                 <td>${contact.email}</td>
                 <td>${contact.gender}</td>

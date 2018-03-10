@@ -1,7 +1,7 @@
 package contacts.dao;
 
 import contacts.model.Profession;
-import contacts.utils.DaoUtil;
+import contacts.utils.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,109 +10,78 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessionDao implements IDao<Profession> {
+public class ProfessionDao extends AbstractDao<Profession> {
 
     private final static String PROF_ID = "prof_id";
     private final static String PROFESSION = "profession";
-    private final static String GET_ALL = "select prof_id, profession from professions;";
-    private final static String ADD = "insert into contacts.professions(profession) VALUES (?);";
-    private final static String GET_BY_ID = "select prof_id, profession from professions where prof_id=?;";
-    private final static String GET_BY_TITLE = "select prof_id, profession from professions where profession=?;";
-    private final static String DELETE = "delete from contacts.professions where prof_id=?;";
-    private final static String EDIT = "update contacts.professions SET profession=? WHERE professions.prof_id=?;";
+    private final static String GET_ALL = "SELECT prof_id, profession FROM professions;";
+    private final static String CREATE = "INSERT INTO contacts.professions(profession) VALUES (?);";
+    private final static String GET_BY_ID = "SELECT prof_id, profession FROM professions WHERE prof_id=?;";
+    private final static String GET_BY_TITLE = "SELECT prof_id, profession FROM professions WHERE profession=?;";
+    private final static String DELETE = "DELETE FROM professions WHERE prof_id=?;";
+    private final static String EDIT = "UPDATE professions SET profession=? WHERE professions.prof_id=?;";
+
     @Override
-    public List<Profession> getAll() {
-        List<Profession> professions = null;
-        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(GET_ALL);
-        ResultSet rs = statement.executeQuery()){
-            professions = new ArrayList<>();
-            while (rs.next()){
-                Profession profession = new Profession(rs.getInt(PROF_ID),rs.getString(PROFESSION));
-                professions.add(profession);
-            }
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
-        return professions;
+    protected String getSelectedAllQuery() {
+        return GET_ALL;
     }
 
     @Override
-    public void add(Profession profession) {
-        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(ADD)){
-            statement.setString(1,profession.getProfession());
-            statement.execute();
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
+    protected String getSelectByIdQuery() {
+        return GET_BY_ID;
     }
 
     @Override
-    public Profession getById(int id) {
-        Connection connection = DaoUtil.getConnection();
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        Profession profession = null;
-        try {
-            statement = connection.prepareStatement(GET_BY_ID);
-            statement.setInt(1,id);
-            rs = statement.executeQuery();
-            if (rs.next()){
-                profession = new Profession(rs.getInt(PROF_ID),rs.getString(PROFESSION));
-            }
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        } finally {
-            DaoUtil.close(statement,rs,connection);
-        }
-        return profession;
+    protected String getDeleteQuery() {
+        return DELETE;
     }
 
     @Override
-    public Profession getByTitle(String title){
-        Connection connection = DaoUtil.getConnection();
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        Profession profession = null;
+    protected String getCreateQuery() {
+        return CREATE;
+    }
 
-        try {
-            statement = connection.prepareStatement(GET_BY_TITLE);
-            statement.setString(1,title);
-            rs = statement.executeQuery();
-            if (rs.next()){
-                profession = new Profession(rs.getInt(PROF_ID),rs.getString(PROFESSION));
-            }
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
-        finally {
-            DaoUtil.close(statement,rs,connection);
-        }
-        return profession;
+    @Override
+    protected String getEditQuery() {
+        return EDIT;
+    }
+
+    @Override
+    protected Profession getEntity(ResultSet rs) throws SQLException {
+        return new Profession(rs.getInt("prof_id"), rs.getString("profession"));
+    }
+
+    @Override
+    protected void fillCreateStatement(PreparedStatement preparedStatement, Profession entity) throws SQLException {
+        preparedStatement.setString(1, entity.getProfession());
+    }
+
+    @Override
+    protected void fillEditStatement(PreparedStatement preparedStatement, Profession entity) throws SQLException {
+        preparedStatement.setString(1, entity.getProfession());
+        preparedStatement.setInt(2, entity.getId());
     }
 
     @Override
     public List<Profession> getByTitle(String title, String name) {
-        throw new UnsupportedOperationException();
-    }
+        Connection connection = DaoUtil.getConnection();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        List<Profession> professions = new ArrayList<>();
 
-    @Override
-    public void delete(Profession profession) {
-        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)){
-            statement.setInt(1,profession.getId());
-            statement.execute();
-        }catch (SQLException ex){
+        try {
+            statement = connection.prepareStatement(GET_BY_TITLE);
+            statement.setString(1, title);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                professions.add(new Profession(rs.getInt(PROF_ID), rs.getString(PROFESSION)));
+            }
+            return professions;
+        } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            DaoUtil.close(statement, rs, connection);
         }
-    }
-
-    @Override
-    public void edit(Profession profession) {
-        try (Connection connection = DaoUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(EDIT)){
-            statement.setString(1,profession.getProfession());
-            statement.setInt(2,profession.getId());
-            statement.execute();
-        }catch (SQLException ex){
-            ex.printStackTrace();
-        }
+        return null;
     }
 }

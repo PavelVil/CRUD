@@ -1,8 +1,7 @@
 package contacts.controller;
 
-import contacts.dao.ProfessionDao;
+import contacts.dao.*;
 import contacts.model.Profession;
-import contacts.model.Zip;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +14,7 @@ import java.io.IOException;
  */
 public class ProfessionController extends HttpServlet {
 
-    private ProfessionDao professionDao = new ProfessionDao();
+    private AbstractDao<Profession> professionDao = new ProfessionDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +23,6 @@ public class ProfessionController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         String url = "/pages/";
         req.setAttribute("professionList",professionDao.getAll());
@@ -56,7 +54,7 @@ public class ProfessionController extends HttpServlet {
         String title = req.getParameter("profession");
         Profession profession = new Profession(title);
         if (profId==null){
-            professionDao.add(profession);
+            professionDao.create(profession);
         } else {
             profession.setId(Integer.parseInt(profId));
             professionDao.edit(profession);

@@ -3,7 +3,6 @@ package contacts.dao;
 import java.sql.*;
 import java.util.*;
 
-import com.sun.istack.internal.*;
 import contacts.model.*;
 import contacts.utils.*;
 
